@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".ZooListActivity"
-            android:label="@string/app_name" >
+            android:label="@string/title_activity_zoo_animals" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

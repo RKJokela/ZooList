@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">ZooList</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_zoo_animals">Zoo Animals</string>
+    <string name="name">Name:</string>
+    <string name="location">Location:</string>
+    <string name="type">Type:</string>
+    <string name="mammal">Mammal</string>
+    <string name="bird">Bird</string>
+    <string name="reptile">Reptile</string>
+    <string name="save">Save</string>
+    <string name="hint_name">animal species name</string>
+    <string name="hint_location">zoo area</string>
 </resources>

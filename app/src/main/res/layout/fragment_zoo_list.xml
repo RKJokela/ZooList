@@ -8,9 +8,100 @@
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context=".ZooListActivityFragment">
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/zoo_inputControls"
+        android:shrinkColumns="1"
+        android:stretchColumns="1">
 
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tableRow1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:id="@+id/zoo_nameLabel"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/zoo_name"
+                android:hint="@string/hint_name"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tableRow2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:id="@+id/zoo_locationLabel"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/zoo_location"
+                android:hint="@string/hint_location"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tableRow3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/type"
+                android:id="@+id/zoo_animalTypeLabel"
+                android:layout_gravity="center_vertical"/>
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/zoo_animalType">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mammal"
+                    android:id="@+id/zoo_animalTypeMammal"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bird"
+                    android:id="@+id/zoo_animalTypeBird"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reptile"
+                    android:id="@+id/zoo_animalTypeReptile"/>
+            </RadioGroup>
+        </TableRow>
+        <Button
+                android:id="@+id/zoo_saveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/save"/>
+    </TableLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/zoo_animals"
+        android:layout_below="@+id/zoo_inputControls"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>
