@@ -4,6 +4,11 @@ package com.rjokela.zoolist;
  * Created by Randon K. Jokela on 8/11/2015.
  */
 public class Animal {
+
+    public final static String MAMMAL = "mammal";
+    public final static String BIRD = "bird";
+    public final static String REPTILE = "reptile";
+
     private String name="";
     private String location = "";
     private String type="";
