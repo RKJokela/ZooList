@@ -39,8 +39,8 @@ public class ZooListActivityFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         ListView list=(ListView)getActivity().findViewById(R.id.zoo_animals);
-        adapter=new ArrayAdapter<Animal>(getActivity(),
-                android.R.layout.simple_list_item_1,
+        adapter=new AnimalAdapter(getActivity(),
+                R.layout.row,
                 animals);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
