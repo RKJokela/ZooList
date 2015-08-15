@@ -2,14 +2,17 @@ package com.rjokela.zoolist;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
  * A placeholder fragment containing a simple view.
  */
 public class ZooListActivityFragment extends Fragment {
+    public final static String TAG = "ZooListActivityFragment";
     List<Animal> animals = new ArrayList<Animal>();
     ArrayAdapter<Animal> adapter = null;
 
@@ -39,6 +43,12 @@ public class ZooListActivityFragment extends Fragment {
                 android.R.layout.simple_list_item_1,
                 animals);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                onDelete(view, position);
+            }
+        });
 
         Button saveButton = (Button) getActivity().findViewById(R.id.zoo_saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -72,5 +82,17 @@ public class ZooListActivityFragment extends Fragment {
         // Notifies the adapter that the underlying data has changed,
         // any View reflecting the data should refresh itself.
         adapter.notifyDataSetChanged();
+    }
+
+    private void onDelete(View view, int position) {
+        Animal animal = adapter.getItem(position);
+
+        if (animal != null) {
+            String item = "deleting:" + animal.getName();
+            Toast.makeText(getActivity(), item, Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onItemClick: " + animal.getName());
+            adapter.remove(animal);
+            adapter.notifyDataSetChanged();
+        }
     }
 }
