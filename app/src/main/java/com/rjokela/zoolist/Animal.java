@@ -12,6 +12,12 @@ public class Animal {
     private String name="";
     private String location = "";
     private String type="";
+    protected long id = 0;
+
+    public long getId() { return id; }
+
+    public void setId(long id) { this.id = id; }
+
     public String getName() {
         return(name);
     }
