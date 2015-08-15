@@ -28,6 +28,7 @@ public class ZooListActivityFragment extends Fragment {
     public final static String TAG = "ZooListActivityFragment";
     List<Animal> animals = new ArrayList<Animal>();
     ArrayAdapter<Animal> adapter = null;
+    private DBHelper dbHelper = null;
 
     public ZooListActivityFragment() {
     }
@@ -41,6 +42,15 @@ public class ZooListActivityFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
+
+        try {
+            dbHelper = new DBHelper(getActivity());
+            animals = dbHelper.selectAll();
+        } catch (Exception e) {
+            Log.e(TAG, "onCreate: DBHelper threw exception: " + e);
+            e.printStackTrace();
+        }
+
         ListView list=(ListView)getActivity().findViewById(R.id.zoo_animals);
         adapter=new AnimalAdapter(getActivity(),
                 R.layout.row,
@@ -80,6 +90,13 @@ public class ZooListActivityFragment extends Fragment {
                 animal.setType("reptile");
                 break;
         }
+
+        long animalId = 0;
+        if (dbHelper != null) {
+            animalId = dbHelper.insert(animal);
+            animal.setId(animalId);
+        }
+
         // Add the object at the end of the array.
         adapter.add(animal);
         // Notifies the adapter that the underlying data has changed,
@@ -100,6 +117,10 @@ public class ZooListActivityFragment extends Fragment {
             String item = "deleting: " + animal.getName();
             Toast.makeText(getActivity(), item, Toast.LENGTH_SHORT).show();
             Log.d(TAG, "onItemClick: " + animal.getName());
+
+            // delete database record
+            if (dbHelper != null) dbHelper.deleteRecord(animal.getId());
+
             adapter.remove(animal);
             adapter.notifyDataSetChanged();
         }
