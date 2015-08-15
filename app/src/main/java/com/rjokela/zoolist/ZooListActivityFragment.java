@@ -1,8 +1,11 @@
 package com.rjokela.zoolist;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,38 +79,44 @@ public class ZooListActivityFragment extends Fragment {
         Animal animal=new Animal();
         EditText name = (EditText)getActivity().findViewById(R.id.zoo_name);
         Spinner zoo_area = (Spinner)getActivity().findViewById(R.id.zoo_location);
-        animal.setName(name.getText().toString());
-        animal.setLocation(zoo_area.getSelectedItem().toString());
-        RadioGroup types=(RadioGroup)getActivity().findViewById(R.id.zoo_animalType);
-        switch (types.getCheckedRadioButtonId()) {
-            case R.id.zoo_animalTypeMammal:
-                animal.setType("mammal");
-                break;
-            case R.id.zoo_animalTypeBird:
-                animal.setType("bird");
-                break;
-            case R.id.zoo_animalTypeReptile:
-                animal.setType("reptile");
-                break;
+
+        String animalName = name.getText().toString();
+        if (TextUtils.isEmpty(animalName)) {
+            showMissingInfoAlert();
+        } else {
+            animal.setName(name.getText().toString());
+            animal.setLocation(zoo_area.getSelectedItem().toString());
+            RadioGroup types = (RadioGroup) getActivity().findViewById(R.id.zoo_animalType);
+            switch (types.getCheckedRadioButtonId()) {
+                case R.id.zoo_animalTypeMammal:
+                    animal.setType("mammal");
+                    break;
+                case R.id.zoo_animalTypeBird:
+                    animal.setType("bird");
+                    break;
+                case R.id.zoo_animalTypeReptile:
+                    animal.setType("reptile");
+                    break;
+            }
+
+            long animalId = 0;
+            if (dbHelper != null) {
+                animalId = dbHelper.insert(animal);
+                animal.setId(animalId);
+            }
+
+            // Add the object at the end of the array.
+            adapter.add(animal);
+            // Notifies the adapter that the underlying data has changed,
+            // any View reflecting the data should refresh itself.
+            adapter.notifyDataSetChanged();
+
+            // remove soft keyboard when hitting save
+            InputMethodManager inputManager = (InputMethodManager)
+                    getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().
+                    getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
-
-        long animalId = 0;
-        if (dbHelper != null) {
-            animalId = dbHelper.insert(animal);
-            animal.setId(animalId);
-        }
-
-        // Add the object at the end of the array.
-        adapter.add(animal);
-        // Notifies the adapter that the underlying data has changed,
-        // any View reflecting the data should refresh itself.
-        adapter.notifyDataSetChanged();
-
-        // remove soft keyboard when hitting save
-        InputMethodManager inputManager = (InputMethodManager)
-                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().
-            getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private void onDelete(View view, int position) {
@@ -124,5 +133,24 @@ public class ZooListActivityFragment extends Fragment {
             adapter.remove(animal);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public void showMissingInfoAlert() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder
+                .setTitle(getResources().getString(R.string.alert_title))
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage(getResources().getString(R.string.alert_message))
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        alertDialog.show();
     }
 }

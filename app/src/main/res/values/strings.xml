@@ -13,6 +13,8 @@
     <string name="save">Save</string>
     <string name="hint_name">animal species name</string>
     <string name="hint_location">zoo area</string>
+    <string name="alert_title">Animal Name Missing</string>
+    <string name="alert_message">Please enter an animal name</string>
     <string-array name="zoo_areas">
         <item>African Rocks</item>
         <item>Asian Passage</item>
