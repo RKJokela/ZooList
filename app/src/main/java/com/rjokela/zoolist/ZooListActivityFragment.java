@@ -1,17 +1,20 @@
 package com.rjokela.zoolist;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -61,10 +64,10 @@ public class ZooListActivityFragment extends Fragment {
 
     private void onSave(){
         Animal animal=new Animal();
-        EditText name=(EditText)getActivity().findViewById(R.id.zoo_name);
-        EditText location=(EditText)getActivity().findViewById(R.id.zoo_location);
+        EditText name = (EditText)getActivity().findViewById(R.id.zoo_name);
+        Spinner zoo_area = (Spinner)getActivity().findViewById(R.id.zoo_location);
         animal.setName(name.getText().toString());
-        animal.setLocation(location.getText().toString());
+        animal.setLocation(zoo_area.getSelectedItem().toString());
         RadioGroup types=(RadioGroup)getActivity().findViewById(R.id.zoo_animalType);
         switch (types.getCheckedRadioButtonId()) {
             case R.id.zoo_animalTypeMammal:
@@ -82,13 +85,19 @@ public class ZooListActivityFragment extends Fragment {
         // Notifies the adapter that the underlying data has changed,
         // any View reflecting the data should refresh itself.
         adapter.notifyDataSetChanged();
+
+        // remove soft keyboard when hitting save
+        InputMethodManager inputManager = (InputMethodManager)
+                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().
+            getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private void onDelete(View view, int position) {
         Animal animal = adapter.getItem(position);
 
         if (animal != null) {
-            String item = "deleting:" + animal.getName();
+            String item = "deleting: " + animal.getName();
             Toast.makeText(getActivity(), item, Toast.LENGTH_SHORT).show();
             Log.d(TAG, "onItemClick: " + animal.getName());
             adapter.remove(animal);

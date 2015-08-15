@@ -46,11 +46,12 @@
                 android:text="@string/location"
                 android:id="@+id/zoo_locationLabel"/>
 
-            <EditText
+            <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/zoo_location"
-                android:hint="@string/hint_location"/>
+                android:entries="@array/zoo_areas"
+                tools:listitem="@android:layout/simple_spinner_dropdown_item"/>
         </TableRow>
 
         <TableRow
