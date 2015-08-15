@@ -5,4 +5,6 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="AlertDialogCustom" parent="@android:style/Theme.Dialog"/>
+
 </resources>
